@@ -1,0 +1,74 @@
+/*
+Filename: ip.css
+Author: Jessica Bu
+*/
+
+body {
+     font-family: "HelveticaNeue";
+     font-size: 12pt;
+}
+
+#wordDisplay {
+	border-style: solid;
+	width: 200px;
+	display: block;
+	float: left;
+}
+
+#wordDisplay ul {
+	list-style-type: none;
+	float: left;
+}
+
+#scoreDisplay {
+	border-style: solid;
+	width: 200px;
+	display: block;
+	text-align: center;
+	float: left;
+}
+
+#inputWord{
+	border-style: solid;
+	width: 200px;
+	text-align: center;
+	float: left;
+}
+
+#timer {
+	border-style: solid;
+	width: 200px;
+	text-align: center;
+	float: left;
+}
+
+#menu, #leaderboard {
+	list-style-type: none;
+}
+
+.navbar-header > .wordhunt {
+	font-size: 200% !important;
+}
+
+.margin {
+	margin-top: 20px;
+	display: inline-block;
+}
+
+.space {
+	margin-left: 20px;
+}
+
+.morespace {
+	margin-left: 98px;
+}
+
+#timer {
+	margin-left: 20px;
+}
+
+#wordDisplay {
+	float: right;
+	margin-right: 500px;
+}
+

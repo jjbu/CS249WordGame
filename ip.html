@@ -1,0 +1,227 @@
+/*
+Filename: ip.html
+Author: Jessica Bu
+*/
+<head>
+  <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <title>Word Hunt</title>
+</head>
+
+<body>
+
+<!-- Header ---------------------------------------------------------------------------->
+  <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand pointer wordhunt">Word Hunt</a>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+        {{#if isPage 'menu'}}
+    <!-- {{> menu}} -->
+  {{else}}
+  <button id = "backtomenu" class="btn navbar-btn navbar-right"> Back to menu </button>
+  {{/if}}
+       
+      </ul>
+      <ul class="navbar-right">
+        {{#if currentUser}}
+         {{> dashboard}}
+        {{/if}} 
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- End Game Modal  ---------------------------------------------------------------------->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Game Over</h4>
+      </div>
+      <div class="modal-body">
+        <p>You earned {{displayScore}} points!</p>
+        {{#if currentUser}}
+        <p>Your highscore: {{displayHighscore}}</p>
+        {{/if}}
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- Instructions Modal  ---------------------------------------------------------------------->
+<div id="instructionsModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Instructions</h4>
+      </div>
+      <div class="modal-body">
+        <p>The goal of Word Hunt is to find as many words as possible from adjacent letters in the word board - but work fast, you only have 60 seconds! Longer words will earn you more points. To clear a selection, simply click on "Clear word." Once you have formed your word, press the Submit word button. If it is valid, it will be added to the display of words you have found, and your score will be updated. If you would like to end the game before your time is up, click on "End Game." To save your score and beat your personal record, create an account and login. You can also see how you compare with other players in the Hall of Fame. Have fun and good luck!</p>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Highscores Modal  ------------------------------------------------------------------------>
+<div id="highscoresModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Hall of Fame</h4>
+      </div>
+      <div class="modal-body">
+        {{> leaderboard}}
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Menu Page  ------------------------------------------------------------------------>
+  {{#if isPage 'menu'}}
+    {{> menu}}
+  {{/if}}
+
+<!-- Play Page  ------------------------------------------------------------------------>
+ {{#if isPage 'play'}}
+  <div id='timer'>Time:
+    {{time}} seconds
+  </div>
+
+  <div id='scoreDisplay'>
+      {{displayScore}} points
+  </div>
+
+  <div id='inputWord'>
+    Input word:
+    {{displayInputWord}}
+  </div>
+
+  <div id='wordDisplay'>
+   <p> Words Found: </p>
+    <ul>
+      {{#each displayWord}}
+       <li>{{word}}: {{points}} </li>
+      {{/each}}
+    </ul>
+  </div>
+
+<div id = 'wordboard'>
+   {{> wordBoard}} 
+ </div>
+{{/if}}
+
+</body>
+
+<!-- Register template ---------------------------------------------------------------------------------->
+<template name="register">
+    <form role="form">
+      <div class="form-group">
+        <label for="username">Create an account:</label>
+        <input type="text" class="form-control" name="registerUsername" placeholder="Enter username">
+      </div>
+      <div class="form-group">
+        <input type="password" class="form-control" name="registerPassword" placeholder="Enter password">
+         </div>
+        <input type="submit" value="Register" class="btn btn-default">
+    </form>
+</template>
+
+<!-- Login Template ------------------------------------------------------------------------------------>
+<template name="login">
+  <form role="form">
+      <div class="form-group">
+        <label for="username">Login to your account:</label>
+        <input type="text" class="form-control" name="loginUsername" placeholder="Enter username">
+      </div>
+      <div class="form-group">
+        <input type="password" class="form-control" name="loginPassword" placeholder="Enter password">
+         </div>
+        <input type="submit" value="Login" class="btn btn-default">
+    </form>
+</template>
+
+<!-- Dashboard Template ---------------------------------------------------------------------------------->
+<template name="dashboard">
+    <p>Thank you for logging in, {{username}}.</p>
+    <p><a href="#" class="logout">Logout</a></p>
+</template>
+
+<!-- Menu Template ---------------------------------------------------------------------------------------->
+<template name="menu">
+    <div class="col-md-6 col-md-offset-3">
+    <ul id="menu">
+          <button type="button" class="btn btn-block btn-primary btn-lg" data-target="#myModal" id='play'>Play</button>
+          <button type="button" class="btn btn-block btn-info btn-lg" data-toggle="modal" data-target="#instructionsModal" id='instructions'>Instructions</button>
+          <button type="button" class="btn btn-block btn-default btn-lg" data-toggle="modal" data-target="#highscoresModal" id='highscores'>Hall of Fame</button>
+    </ul>
+  </div>
+  
+  <div class="col-md-3 col-md-offset-1">
+  {{#if currentUser}}
+         <!-- {{> dashboard}} -->
+        {{else}}
+            <span class='margin'> {{> register}} </span>
+            <span class='margin'> {{> login}} </span>
+    {{/if}}
+  </div>
+</template>
+  
+<!-- Wordboard Template -------------------------------------------------------------------------------------->
+<template name="wordBoard">
+  <div>
+    <div>
+      {{grid}}
+    <svg id="grid"></svg>
+  </div>
+    <div>
+      <p>
+      <button type="button" class="btn btn-primary morespace" data-target="#myModal" id='new'>New Game</button>
+ <!-- <button id = "new" class="btn btn-primary  morespace"> New game </button> -->
+  <button id = "submit" class="btn btn-primary space"> Submit Word </button>
+  <button id = "clearWord" class="btn btn-primary space"> Clear Word </button>
+  <!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" id='end'>End Game</button> -->
+  <button id = "end" class="btn btn-primary space">  End Game </button> </p>
+</div>
+</div>
+</template>
+
+<!--Leaderboard template-------------------------------------------------------------------------------------->
+<template name = "leaderboard">
+  <ul id = 'leaderboard'>
+      {{#each player}}
+        <li  class="player">{{username}}: {{profile.highscore}} points</li>
+      {{/each}}
+    </ul>
+</template>
+
+
